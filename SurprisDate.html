@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>یه سوال مهم ❤️</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:tahoma;
+}
+
+body{
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:15px;
+overflow:hidden;
+}
+
+.box{
+background:white;
+width:100%;
+max-width:650px;
+padding:25px;
+border-radius:25px;
+box-shadow:0 15px 40px rgba(0,0,0,.2);
+text-align:center;
+
+max-height:85vh;
+overflow-y:auto;
+}
+
+h2{
+line-height:2;
+color:#333;
+margin-bottom:20px;
+}
+
+button{
+padding:12px 18px;
+margin:8px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-size:16px;
+background:#ff4d6d;
+color:white;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+input{
+width:80%;
+max-width:300px;
+padding:12px;
+border-radius:12px;
+border:1px solid #ddd;
+text-align:center;
+font-size:16px;
+}
+
+#heart{
+position:fixed;
+font-size:24px;
+pointer-events:none;
+animation:fall linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+from{
+transform:translateY(-100px);
+opacity:1;
+}
+to{
+transform:translateY(110vh);
+opacity:0;
+}
+}
+
+.telegramBtn{
+background:#229ED9;
+}
+
+</style>
+</head>
+<body>
+
+<div class="box">
+
+<h2 id="question"></h2>
+
+<div id="buttons"></div>
+
+</div>
+
+<script>
+
+let step = -1;
+let answers = [];
+let personName = "";
+let escapeCount = 0;
+
+showPage();
+
+function showPage(){
+
+const q = document.getElementById("question");
+const b = document.getElementById("buttons");
+
+if(step === -1){
+
+q.innerHTML = `
+یه سوال مهم ازت دارم... 🥺❤️
+
+<br><br>
+
+قول میدی تا آخرش بری؟
+`;
+
+b.innerHTML = `
+<button onclick="step=0;showPage()">
+قول میدم 😌
+</button>
+`;
+}
+
+else if(step === 0){
+
+q.innerHTML = `
+اول اسمتو بهم بگو ❤️
+
+<br><br>
+
+<input
+id="nameInput"
+placeholder="اسمت...">
+`;
+
+b.innerHTML = `
+<br><br>
+<button onclick="saveName()">
+ادامه ➜
+</button>
+`;
+}
+
+else if(step === 1){
+
+q.innerHTML = `
+${personName} عزیز ❤️
+
+<br><br>
+
+صبح رو بیشتر دوست داری یا شب؟
+`;
+
+b.innerHTML = `
+<button onclick="next('صبح')">صبح 🌅</button>
+<button onclick="next('شب')">شب 🌙</button>
+`;
+}
+
+else if(step === 2){
+
+q.innerHTML = `
+اگر قرار باشه بریم بیرون،
+کدومو انتخاب میکنی؟ 😍
+`;
+
+b.innerHTML = `
+<button onclick="next('کافه')">☕ کافه</button>
+<button onclick="next('رستوران')">🍝 رستوران</button>
+<button onclick="next('سینما')">🎬 سینما</button>
+<button onclick="next('پارک')">🌳 پارک</button>
+<button onclick="next('بولینگ')">🎳 بولینگ</button>
+<button onclick="next('شهربازی')">🎡 شهربازی</button>
+<button onclick="next('کافه گیم')">🎮 کافه گیم</button>
+<button onclick="next('بام شهر')">🌃 بام شهر</button>
+`;
+}
+
+else if(step === 3){
+
+q.innerHTML = `
+برای تفریح چی انتخاب میکنی؟ ✨
+`;
+
+b.innerHTML = `
+<button onclick="next('پیاده روی')">🚶 پیاده روی</button>
+<button onclick="next('فیلم')">🎥 فیلم</button>
+<button onclick="next('بازی')">🎮 بازی</button>
+<button onclick="next('گفتگو')">🫶 گفتگو</button>
+<button onclick="next('عکاسی')">📸 عکاسی</button>
+<button onclick="next('بستنی خوردن')">🍦 بستنی خوردن</button>
+`;
+}
+
+else if(step === 4){
+
+q.innerHTML = `
+خب...
+
+<br><br>
+
+فهمیدم که
+
+<b>${answers[0]}</b>
+
+رو بیشتر دوست داری،
+
+<br><br>
+
+بری
+
+<b>${answers[1]}</b>
+
+و کلی
+
+<b>${answers[2]}</b>
+
+داشته باشی ❤️
+
+<br><br>
+
+اما هنوز یه سوال مونده...
+`;
+
+b.innerHTML = `
+<button onclick="showFinal()">
+بپرس 😳
+</button>
+`;
+}
+
+}
+
+function saveName(){
+
+let value =
+document.getElementById("nameInput").value;
+
+if(value.trim()==""){
+alert("اول اسمتو بنویس 😌");
+return;
+}
+
+personName = value;
+step = 1;
+showPage();
+
+}
+
+function next(answer){
+
+answers.push(answer);
+step++;
+showPage();
+
+}
+
+function showFinal(){
+
+createHearts();
+
+document.getElementById("question").innerHTML = `
+
+${personName} عزیز ❤️
+
+<br><br>
+
+پس فهمیدم که
+
+<b>${answers[0]}</b>
+
+رو بیشتر دوست داری،
+
+<br><br>
+
+بری
+
+<b>${answers[1]}</b>
+
+و کلی
+
+<b>${answers[2]}</b>
+
+داشته باشی ✨
+
+<br><br>
+
+راستش...
+
+<br><br>
+
+من دوست دارم یه روز باهم بریم بیرون 🥺❤️
+
+<br><br>
+
+با من میای؟ 😌
+
+`;
+
+document.getElementById("buttons").innerHTML = `
+
+<button
+class="telegramBtn"
+onclick="window.open('https://t.me/mwhvr')">
+
+آره ❤️
+
+</button>
+
+<button
+id="noBtn"
+onmouseover="runAway()"
+onclick="runAway()">
+
+نه 🙈
+
+</button>
+
+`;
+
+}
+
+function runAway(){
+
+const btn =
+document.getElementById("noBtn");
+
+escapeCount++;
+
+const x =
+Math.random() * (window.innerWidth - 180);
+
+const y =
+Math.random() * (window.innerHeight - 80);
+
+btn.style.position = "fixed";
+btn.style.left = x + "px";
+btn.style.top = y + "px";
+
+if(escapeCount > 5){
+btn.innerHTML = "مطمئنی؟ 🥺";
+}
+
+if(escapeCount > 10){
+btn.innerHTML = "بیخیال دیگه 😂";
+}
+
+if(escapeCount > 15){
+btn.innerHTML = "فقط آره رو بزن ❤️";
+}
+
+if(escapeCount > 20){
+btn.innerHTML = "تلگرامو باز کن 😭";
+}
+
+}
+
+function createHearts(){
+
+setInterval(()=>{
+
+const heart =
+document.createElement("div");
+
+heart.id = "heart";
+heart.innerHTML = "❤️";
+
+heart.style.left =
+Math.random()*100 + "vw";
+
+heart.style.animationDuration =
+(3 + Math.random()*3) + "s";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},6000);
+
+},300);
+
+}
+
+</script>
+
+</body>
+</html>
